@@ -15,24 +15,29 @@ public class Application {
             final BufferedReader br = new BufferedReader(new InputStreamReader(bais));
 
             final String rawRequestLine = br.readLine();
+            final String[] methodAndURIAndProtocol = rawRequestLine.split(" ");
+            System.out.println("Request Line");
+            System.out.println("\tmethod  : " + methodAndURIAndProtocol[0]);
+            System.out.println("\tURI     : " + methodAndURIAndProtocol[1]);
+            System.out.println("\tProtocol: " + methodAndURIAndProtocol[2]);
+
             final List<String> rawLines = getRawLines(br);
+            System.out.println("Headers");
+            for (String rawLine : rawLines) {
+                final String[] fieldNameAndFieldValue = rawLine.split(":");
+                System.out.println("\tName: " + fieldNameAndFieldValue[0] + ", value: " + fieldNameAndFieldValue[1].trim());
+            }
             final int contentLength = getContentLength(rawLines);
-            System.out.println("rawRequestLine = " + rawRequestLine);
-            rawLines.stream().forEach(System.out::println);
 
             final int indexOfEndOfRawBytes = getEndOfRawBytesIndex(rawBytes);
             final int bodyOffset = getBodyOffset(rawBytes);
-            System.out.println("indexOfEndOfRawBytes = " + indexOfEndOfRawBytes);
-            System.out.println("bodyOffset = " + bodyOffset);
 
             final ByteArrayOutputStream baos = new ByteArrayOutputStream();
             for (int i = bodyOffset; i < indexOfEndOfRawBytes; i++) {
                 baos.write(rawBytes[i]);
             }
             final byte[] rawBody = baos.toByteArray();
-            for (byte b : rawBody) {
-                System.out.println("b = " + (char) b);
-            }
+            System.out.println("body: " + new String(rawBody));
         } catch (IOException e) {
             e.printStackTrace();
         }
