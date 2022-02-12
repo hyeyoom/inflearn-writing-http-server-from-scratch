@@ -1,5 +1,6 @@
 package com.github.hyeyoom;
 
+import com.github.hyeyoom.request.Request;
 import com.github.hyeyoom.request.RequestHeaders;
 import com.github.hyeyoom.request.RequestLine;
 
@@ -19,11 +20,9 @@ public class Application {
 
             final String rawRequestLine = br.readLine();
             final RequestLine requestLine = new RequestLine(rawRequestLine);
-            System.out.println("requestLine = " + requestLine);
 
             final List<String> rawLines = getRawLines(br);
             final RequestHeaders requestHeaders = new RequestHeaders(rawLines);
-            System.out.println("requestHeaders = " + requestHeaders);
 
             final String maybeContentLength = requestHeaders.getHeaderValue("Content-Length");
             int contentLength= getContentLength(maybeContentLength);
@@ -37,7 +36,8 @@ public class Application {
             }
 
             final byte[] rawBody = baos.toByteArray();
-            System.out.println("body: " + new String(rawBody));
+            final Request request = new Request(requestLine, requestHeaders, rawBody);
+            System.out.println("request = " + request);
         } catch (IOException e) {
             e.printStackTrace();
         }
