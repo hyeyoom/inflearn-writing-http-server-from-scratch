@@ -17,22 +17,15 @@ public class Application {
             final String rawRequestLine = br.readLine();
             final List<String> rawLines = getRawLines(br);
             final int contentLength = getContentLength(rawLines);
-            System.out.println("rawRequestLine = " + rawRequestLine);
-            rawLines.stream().forEach(System.out::println);
 
             final int indexOfEndOfRawBytes = getEndOfRawBytesIndex(rawBytes);
             final int bodyOffset = getBodyOffset(rawBytes);
-            System.out.println("indexOfEndOfRawBytes = " + indexOfEndOfRawBytes);
-            System.out.println("bodyOffset = " + bodyOffset);
 
             final ByteArrayOutputStream baos = new ByteArrayOutputStream();
             for (int i = bodyOffset; i < indexOfEndOfRawBytes; i++) {
                 baos.write(rawBytes[i]);
             }
             final byte[] rawBody = baos.toByteArray();
-            for (byte b : rawBody) {
-                System.out.println("b = " + (char) b);
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }
