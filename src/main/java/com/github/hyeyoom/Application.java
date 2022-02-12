@@ -15,7 +15,18 @@ public class Application {
             final BufferedReader br = new BufferedReader(new InputStreamReader(bais));
 
             final String rawRequestLine = br.readLine();
+            final String[] methodAndURIAndProtocol = rawRequestLine.split(" ");
+            System.out.println("Request Line");
+            System.out.println("\tmethod  : " + methodAndURIAndProtocol[0]);
+            System.out.println("\tURI     : " + methodAndURIAndProtocol[1]);
+            System.out.println("\tProtocol: " + methodAndURIAndProtocol[2]);
+
             final List<String> rawLines = getRawLines(br);
+            System.out.println("Headers");
+            for (String rawLine : rawLines) {
+                final String[] fieldNameAndFieldValue = rawLine.split(":");
+                System.out.println("\tName: " + fieldNameAndFieldValue[0] + ", value: " + fieldNameAndFieldValue[1].trim());
+            }
             final int contentLength = getContentLength(rawLines);
 
             final int indexOfEndOfRawBytes = getEndOfRawBytesIndex(rawBytes);
@@ -26,6 +37,7 @@ public class Application {
                 baos.write(rawBytes[i]);
             }
             final byte[] rawBody = baos.toByteArray();
+            System.out.println("body: " + new String(rawBody));
         } catch (IOException e) {
             e.printStackTrace();
         }
