@@ -11,4 +11,17 @@ public class ResponseLine {
         this.statusCode = statusCode;
         this.reasonPhrase = reasonPhrase;
     }
+
+    public String getRequestLineString() {
+        return String.format("%s %s %s", httpVersion, statusCode, reasonPhrase);
+    }
+
+    @Override
+    public String toString() {
+        return "ResponseLine{" +
+                "httpVersion='" + httpVersion + '\'' +
+                ", statusCode=" + statusCode +
+                ", reasonPhrase='" + reasonPhrase + '\'' +
+                '}';
+    }
 }

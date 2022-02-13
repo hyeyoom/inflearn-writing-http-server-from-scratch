@@ -60,7 +60,11 @@ public class Application {
                             "</body>\n" +
                             "</html>"
                     );
+            System.out.println("response = " + response);
             final byte[] rawResponse = response.toBytes();
+            System.out.println(new String(rawResponse));
+            outputStream.write(rawResponse);
+            outputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
