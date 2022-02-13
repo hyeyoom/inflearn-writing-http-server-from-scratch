@@ -3,6 +3,7 @@ package com.github.hyeyoom;
 import com.github.hyeyoom.request.Request;
 import com.github.hyeyoom.request.RequestHeaders;
 import com.github.hyeyoom.request.RequestLine;
+import com.github.hyeyoom.response.Response;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class Application {
             final RequestHeaders requestHeaders = new RequestHeaders(rawLines);
 
             final String maybeContentLength = requestHeaders.getHeaderValue("Content-Length");
-            int contentLength= getContentLength(maybeContentLength);
+            int contentLength = getContentLength(maybeContentLength);
 
             final int indexOfEndOfRawBytes = getEndOfRawBytesIndex(rawBytes);
             final int bodyOffset = getBodyOffset(rawBytes);
@@ -38,6 +39,28 @@ public class Application {
             final byte[] rawBody = baos.toByteArray();
             final Request request = new Request(requestLine, requestHeaders, rawBody);
             System.out.println("request = " + request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        final File responseFile = new File("http_response.bin");
+        try (final OutputStream outputStream = new FileOutputStream(responseFile)) {
+            final Response response = Response
+                    .ok()
+                    .addHeader("Content-Type", "text/html;")
+                    .body("<!DOCTYPE html>\n" +
+                            "<html lang=\"ko\">\n" +
+                            "<head>\n" +
+                            "    <meta charset=\"UTF-8\">\n" +
+                            "    <title>바닥부터 작성해보는 웹서버</title>\n" +
+                            "</head>\n" +
+                            "<body>\n" +
+                            "<h1>귀여운 멍멍이를 드리겠습니다</h1>\n" +
+                            "<img src=\"https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg\"/>\n" +
+                            "</body>\n" +
+                            "</html>"
+                    );
+            final byte[] rawResponse = response.toBytes();
         } catch (IOException e) {
             e.printStackTrace();
         }
