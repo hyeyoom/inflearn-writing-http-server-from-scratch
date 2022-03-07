@@ -1,8 +1,8 @@
 package com.github.hyeyoom;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 /**
  * 3.3. 과제
@@ -17,10 +17,12 @@ public class Application {
             // 1. 요청라인
             final String rawRequestLine = br.readLine();
             final String[] methodAndURIAndProtocol = rawRequestLine.split(" ");
-            System.out.println("1. Request Line");
-            System.out.println("   -> method  : " + methodAndURIAndProtocol[0].trim());
-            System.out.println("   -> URI     : " + methodAndURIAndProtocol[1].trim());
-            System.out.println("   -> protocol: " + methodAndURIAndProtocol[2].trim());
+            final RequestLine requestLine = new RequestLine(
+                    HttpMethod.valueOf(methodAndURIAndProtocol[0].trim()),
+                    methodAndURIAndProtocol[1].trim(),
+                    methodAndURIAndProtocol[2].trim()
+            );
+            System.out.println("requestLine = " + requestLine);
 
             // 2. 요청 헤더들
             final List<String> rawHeaderAndValueList = new ArrayList<>();
@@ -28,11 +30,13 @@ public class Application {
             while (!"".equals(rawHeader = br.readLine())) {
                 rawHeaderAndValueList.add(rawHeader);
             }
-            System.out.println("2. Headers");
+            final Map<String, String> headerMap = new HashMap<>();
             for (String rawHeaderAndValue : rawHeaderAndValueList) {
                 final String[] headerAndValue = rawHeaderAndValue.split(":");
-                System.out.println("   -> name: " + headerAndValue[0].trim() + ", value: " + headerAndValue[1].trim());
+                headerMap.put(headerAndValue[0].trim(), headerAndValue[1].trim());
             }
+            final RequestHeaders requestHeaders = new RequestHeaders(headerMap);
+            System.out.println("requestHeaders = " + requestHeaders);
 
             // 3. 요청 바디
             final List<String> rawBodyLineList = new ArrayList<>();
@@ -40,10 +44,8 @@ public class Application {
             while ((rawBody = br.readLine()) != null) {
                 rawBodyLineList.add(rawBody);
             }
-            System.out.println("3. Body");
-            for (String bodyLine : rawBodyLineList) {
-                System.out.println("   -> " + bodyLine);
-            }
+            final byte[] body = String.join("", rawBodyLineList).getBytes(StandardCharsets.UTF_8);
+            final Request request = new Request(requestLine, requestHeaders, body);
         }
     }
 }

@@ -9,4 +9,11 @@ public class RequestHeaders {
     public RequestHeaders(Map<String, String> headers) {
         this.headers = headers;
     }
+
+    @Override
+    public String toString() {
+        return "RequestHeaders{" +
+                "headers=" + headers +
+                '}';
+    }
 }
