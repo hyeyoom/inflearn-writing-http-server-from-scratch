@@ -11,4 +11,13 @@ public class RequestLine {
         this.requestURI = requestURI;
         this.protocol = protocol;
     }
+
+    @Override
+    public String toString() {
+        return "RequestLine{" +
+                "httpMethod=" + httpMethod +
+                ", requestURI='" + requestURI + '\'' +
+                ", protocol='" + protocol + '\'' +
+                '}';
+    }
 }
