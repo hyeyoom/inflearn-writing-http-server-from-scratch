@@ -5,15 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 3.2. 과제
- *
- * 읽어온 데이터를 요청 메세지의 형식에 맞게 다음과 같이 출력해봅시다._.
- * 1. 요청라인
- *  - method
- *  - URI
- *  - protocol
- * 2. Headers
- * 3. Body
+ * 3.3. 과제
+ * Request 객체에 파싱한 데이터를 잘 넣어봅시다.
  */
 public class Application {
     public static void main(String[] args) throws IOException {
