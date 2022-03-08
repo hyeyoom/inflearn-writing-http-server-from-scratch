@@ -6,10 +6,11 @@ public class RequestLine {
     private final String requestURI;
     private final String protocol;
 
-    public RequestLine(HttpMethod httpMethod, String requestURI, String protocol) {
-        this.httpMethod = httpMethod;
-        this.requestURI = requestURI;
-        this.protocol = protocol;
+    public RequestLine(String rawRequestLine) {
+        final String[] methodAndURIAndProtocol = rawRequestLine.split(" ");
+        this.httpMethod = HttpMethod.valueOf(methodAndURIAndProtocol[0].trim());
+        this.requestURI = methodAndURIAndProtocol[1].trim();
+        this.protocol = methodAndURIAndProtocol[2].trim();
     }
 
     @Override
