@@ -21,13 +21,4 @@ public class RequestLine {
                 ", protocol='" + protocol + '\'' +
                 '}';
     }
-
-    @Override
-    public String toString() {
-        return "RequestLine{" +
-                "httpMethod=" + httpMethod +
-                ", requestURI='" + requestURI + '\'' +
-                ", protocol='" + protocol + '\'' +
-                '}';
-    }
 }
